@@ -3,7 +3,7 @@ import Router from 'next/router';
 import cookie from 'cookie';
 import { auth, randomNoteUrl } from '../evernote';
 
-const callbackUrl = "http://localhost:3000/"; // your endpoint
+const callbackUrl = process.env.CALLBACK_URL || 'http://localhost:3000/'; // your endpoint
 
 export default class extends React.Component {
   static async getInitialProps({ req, res, query }) {
@@ -22,7 +22,7 @@ export default class extends React.Component {
           ot, os, query.oauth_verifier,
           (error, token, secret) => {
             props.at = token;
-            prop.redirectUrl = '/';
+            props.redirectUrl = '/';
             resolve(token);
           }
         );
