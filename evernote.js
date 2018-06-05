@@ -8,7 +8,6 @@ const getClient = token =>
 
 const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
-const getRedirectUrl = (note, book) => `https://www.evernote.com/Home.action#n=${note}&s=s112&b=${book}&ses=4&sh=1&sds=5&`;
 
 const getRandomIndex = (noteCount) => {
   const totalNotes = reduce(noteCount.notebookCounts, (r, v) => r + v, 0);
@@ -16,7 +15,10 @@ const getRandomIndex = (noteCount) => {
   return index;
 };
 
-export const randomNoteUrl = async (token) => {
+export const getRedirectUrl = note =>
+  `https://www.evernote.com/Home.action#n=${note.guid}&s=s112&b=${note.notebookGuid}&ses=4&sh=1&sds=5&`;
+
+export const randomNote = async (token) => {
   const client = getClient(token);
   const noteStore = client.getNoteStore();
 
@@ -29,13 +31,14 @@ export const randomNoteUrl = async (token) => {
   const maxNotes = 1;
 
   const spec = new Evernote.NoteStore.NotesMetadataResultSpec()
-  spec['includeNotebookGuid'] = true
+  spec.includeNotebookGuid = true;
+  spec.includeTitle = true;
 
   const notesMetadata = await client.getNoteStore().findNotesMetadata(filter, index, maxNotes, spec)
 
-  const randomNote = notesMetadata.notes[0];
+  return notesMetadata.notes[0];
 
-  return getRedirectUrl(randomNote.guid, randomNote.notebookGuid);
+  // return getRedirectUrl(randomNote.guid, randomNote.notebookGuid);
 };
 
 export const auth = new Evernote.Client({

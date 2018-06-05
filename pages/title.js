@@ -38,7 +38,8 @@ export default class extends React.Component {
         });
       });
     } else {
-      props.redirectUrl = getRedirectUrl(await randomNote(cookies.at));
+      // props.redirectUrl = getRedirectUrl(await randomNote(cookies.at));
+      props.note = await randomNote(cookies.at);
     }
     return props;
   }
@@ -54,8 +55,22 @@ export default class extends React.Component {
   }
   render() {
     return (
-      <div>
-        Redirecting ...
+      <div
+        style={{
+          position: 'absolute',
+          top: '40%',
+          width: '100%',
+          margin: '0px auto',
+          textAlign: 'center',
+        }}
+      >
+        {
+          this.props.note ? (
+            <a href={getRedirectUrl(this.props.note)}>
+              {this.props.note.title}
+            </a>
+          ) : 'Redirecting ...'
+        }
       </div>
     );
   }
