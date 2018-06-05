@@ -11,7 +11,7 @@
   "dependencies": {
     "cookie": "^0.3.1",
     "evernote": "^2.0.5",
-    "micro": "^9.3.2",
+    "lodash": "^4.17.10",
     "next": "^6.0.3",
     "react": "^16.4.0",
     "react-dom": "^16.4.0"
